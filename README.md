@@ -5,3 +5,5 @@ all'interno della repository sarà possibile trovare la pagina contenente la rip
 il file in questione si chiama EsercizioGrifo.php
 
 inoltre sarà possibile trovare la pagina da cui si potranno inserire nuove News chiamata gestisciNews.php, il file contenenti le funzioni che si interfacciano con il database chiamato connDB.php ed infine il file SQL del database creato, contenente gli utenti e le notizia create chaimato grifo.sql
+
+Per accedere alla sezione di gestione delle news utilizzare l'email prova@prova.com e la password provaProva 
