@@ -1,17 +1,27 @@
 <?php 
-require "connDB.php";
 
-if (isset($_GET['logout'])) {
-	$varLogin = 2;
-}else{
-	session_start();
+
+require "connDB.php";
+session_start();
+
+$inactive = 60; //after 60 seconds the user gets logged out
+// check to see if $_SESSION['timeout'] is set
+if(isset($_SESSION['timeout']) ) {
+$session_life = time() - $_SESSION['timeout'];
+if($session_life > $inactive)
+    { 
+        echo "string";
+        session_destroy(); 
+        header("Location: gestisciNews.php?logout"); 
+    }
 }
+$_SESSION['timeout'] = time();
 
 $varLogin = 2;
 if (isset($_POST['email']) && isset($_POST['password'])) {
-	$email = $_POST['email'];
+	$email = $_POST['email'] ;
 	$password = md5($_POST['password']);
-	$_SESSION["login"] = $email;
+ 
 	$varLogin = login($email,$password);
 	
 }
@@ -24,7 +34,6 @@ if (isset($_POST['nomeAutore']) && isset($_POST['cognomeAutore']) && isset($_POS
 	$notizia = $_POST['notizia'];
 	inserisciNotizia($nomeAutore,$cognomeAutore,$oggetto,$notizia);
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -113,13 +122,13 @@ if (isset($_POST['nomeAutore']) && isset($_POST['cognomeAutore']) && isset($_POS
  <div class="col-lg-4"></div>
  </div>
 </div>
-<?php if ($varLogin == 1 || session_status() !== PHP_SESSION_NONE) { ?>
+<?php if ($varLogin == 1 ) { ?>
 	<script type="text/javascript">
 	document.getElementById('Login').style.display = "none";
  	document.getElementById('News').style.display = "block";
  </script>
 <?php } ?>
- <?php if (($varLogin == 2 || $varLogin == 0 ) && session_status() === PHP_SESSION_NONE) { ?>
+ <?php if (($varLogin == 2 || $varLogin == 0 )) { ?>
 	<script type="text/javascript">
 	document.getElementById('Login').style.display = "block";
  	document.getElementById('News').style.display = "none";
